@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 return new class extends Migration
 {
@@ -15,10 +17,14 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            // $table
             $table->string('name');
             $table->string('display_name')->nullable();
             $table->string('email')->unique();
+            $table->enum('role', config('constants.user_roles'));
+            $table->string('name');
+            $table->string('dispaly_name')->nullable();
+            $table->string('code')->unique()->nullable();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->string('google_id')->nullable();
@@ -26,6 +32,9 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        DB::table('users')->insert(['role' => '1', 'name' => 'Admin', 'dispaly_name' => 'Admin', 'email' => 'admin@runsystem.net', 'password'=> Hash::make('12345')]);
+
     }
 
     /**
