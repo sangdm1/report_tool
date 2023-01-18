@@ -17,21 +17,20 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->enum('role', config('constants.user_roles'));
             $table->string('name');
             $table->string('display_name')->nullable();
-            $table->string('email')->unique();
-            $table->enum('role', config('constants.user_roles'));
             $table->string('code')->unique()->nullable();
-            $table->string('email')->unique()->nullable();
+            $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
+            $table->rememberToken();
             $table->string('google_id')->nullable();
             $table->string('avatar')->nullable();
-            $table->rememberToken();
             $table->timestamps();
         });
 
-        DB::table('users')->insert(['role' => '1', 'name' => 'Admin', 'dispaly_name' => 'Admin', 'email' => 'admin@runsystem.net', 'password'=> Hash::make('12345')]);
+        DB::table('users')->insert(['role' => '1', 'name' => 'Admin', 'display_name' => 'Admin', 'email' => 'admin@runsystem.net', 'password'=> Hash::make('12345')]);
 
     }
 
