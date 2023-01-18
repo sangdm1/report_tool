@@ -17,7 +17,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->enum('role', config('constants.user_roles'));
+            $table->enum('role', config('constants.user_roles'))->nullable()->default(null);
             $table->string('name');
             $table->string('display_name')->nullable();
             $table->string('code')->unique()->nullable();
@@ -28,9 +28,10 @@ return new class extends Migration
             $table->string('google_id')->nullable();
             $table->string('avatar')->nullable();
             $table->timestamps();
+            $table->enum('status', ['active', 'inactive'])->default('active');
         });
 
-        DB::table('users')->insert(['role' => '1', 'name' => 'Admin', 'display_name' => 'Admin', 'email' => 'admin@runsystem.net', 'password'=> Hash::make('12345')]);
+        DB::table('users')->insert(['role' => '1', 'name' => 'Admin', 'display_name' => 'Admin', 'email' => 'admin@runsystem.net', 'password'=> Hash::make(env('ADMIN_PASSWORD'))]);
 
     }
 
