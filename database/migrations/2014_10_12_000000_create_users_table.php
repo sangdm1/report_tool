@@ -30,7 +30,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        DB::table('users')->insert(['role' => '1', 'name' => 'Admin', 'dispaly_name' => 'Admin', 'password'=> Hash::make('12345')]);
+        DB::table('users')->insert(['role' => '1', 'name' => 'Admin', 'dispaly_name' => 'Admin', 'email' => 'admin@runsystem.net', 'password'=> Hash::make('12345')]);
 
     }
 
