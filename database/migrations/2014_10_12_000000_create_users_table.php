@@ -21,8 +21,6 @@ return new class extends Migration
             $table->string('display_name')->nullable();
             $table->string('email')->unique();
             $table->enum('role', config('constants.user_roles'));
-            $table->string('name');
-            $table->string('dispaly_name')->nullable();
             $table->string('code')->unique()->nullable();
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
