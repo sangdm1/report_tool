@@ -54,4 +54,7 @@ class ApiUserController extends Controller
         return $this->createNewToken($token);
     }
 
+    public function login(Request $request){
+    
+    }
 }
