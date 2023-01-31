@@ -24,6 +24,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 /* Google Social Login */
 Route::get('/login/google', [GoogleLoginController::class, 'redirect'])->name('login.google-redirect');
-Route::get('/login/google/callback', [GoogleLoginController::class, 'callback'])->name('login.google-callback');
+// Route::get('/login/google/callback', [GoogleLoginController::class, 'callback'])->name('login.google-callback');
+Route::get('/login/google/callback', function(){
+    return view("test");
+})->name('login.google-callback');
 Route::get('/login/google/show-fill-infomation', [GoogleLoginController::class, 'showFillInfomation'])->name('login.google-show-fill-infomation');
 Route::post('/login/google/fill-infomation', [GoogleLoginController::class, 'fillInfomation'])->name('login.google-fill-infomation');
