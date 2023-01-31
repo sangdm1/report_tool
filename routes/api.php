@@ -33,4 +33,5 @@ Route::post('/login', [ApiUserController::class, 'login']);
 
 Route::middleware('api')->group(function() {
     Route::get('/users', [UserController::class, 'index']);
+    Route::post('/fill-infomation', [ApiGoogleLoginController::class, 'fillInfomation']);
 });

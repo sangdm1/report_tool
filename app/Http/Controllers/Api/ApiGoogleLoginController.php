@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Response;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 
 class ApiGoogleLoginController extends Controller
@@ -47,5 +49,29 @@ class ApiGoogleLoginController extends Controller
         } catch (Exception $e) {
             dd($e->getMessage());
         }
+    }
+
+    public function fillInfomation(Request $request )
+    {
+        $password = $request->post('password');
+        $display_name = $request->post('display_name');
+        $validator = Validator::make($request->all(), [
+            'password' => ['required', 'string', 'min:8'],
+            'display_name' => ['required', 'string', 'max:255'],
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 404);
+        }
+
+        $id = Auth::id();
+        $user = User::where('id',$id)->first();
+        $user->password = Hash::make($password);
+        $user->display_name = $display_name;
+        $user->save();
+        return response()->json([
+            'message' => 'User successfully fill password',
+            'user' => $user,
+        ]);
     }
 }
