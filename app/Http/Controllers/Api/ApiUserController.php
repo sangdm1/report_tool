@@ -44,13 +44,59 @@ class ApiUserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json($validator->errors());
         }
 
         if (! $token = auth()->attempt($validator->validated())) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Unauthorized']);
         }
 
         return $this->createNewToken($token);
+    }
+
+    public function setRole(Request $request){
+        $user = Auth::user();
+        $userId = Auth::id();
+        $userRole = $user->role;
+        $memId = $request->input('id');
+        $newMemRole = $request->input('role');
+        $memUser = User::where('id', $memId)->first();
+        $oldMemRole = $memUser->role;
+       
+        if($userRole == 1){
+            if($userId != $memId && $newMemRole != 1){
+                return $this->handleSetRole($memUser, $newMemRole);
+            }
+        }else if($userRole == 2){
+            if(($userId != $memId) && !in_array($newMemRole, [1,2]) && !in_array($oldMemRole, [1,2])){
+                return $this->handleSetRole($memUser, $newMemRole);
+            }
+        }else if($userRole == 3){
+            if(($userId != $memId) && !in_array($newMemRole, [1,2,3]) && !in_array($oldMemRole, [1,2,3])){
+                return $this->handleSetRole($memUser, $newMemRole);
+            }
+        }
+
+        return response()->json([
+            'message' => 'User can not update role',
+        ]);
+    }
+
+    protected function handleSetRole($memUser, $newMemRole){
+        $memUser->role = $newMemRole;
+        $memUser->save();
+        return response()->json([
+            'message' => 'User successfully update role',
+            'user' => $memUser,
+        ]);
+    }
+
+    public function users()
+    {
+        $user = Auth::user();
+        if($user->role == 1){
+            $users = User::all();
+            return response()->json($users); 
+        }
     }
 }

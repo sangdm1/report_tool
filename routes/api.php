@@ -26,12 +26,13 @@ use App\Http\Controllers\Api\ApiGoogleLoginController;
 
 // Google login
 Route::get('google/redirect', [ApiGoogleLoginController::class, 'redirect']);
-Route::get('google/callback',  [ApiGoogleLoginController::class, 'callback']);
+Route::get('google/callback', [ApiGoogleLoginController::class, 'callback']);
 
 // Form login
 Route::post('/login', [ApiUserController::class, 'login']);
 
 Route::middleware('api')->group(function() {
-    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users', [ApiUserController::class, 'users']);
     Route::post('/fill-infomation', [ApiGoogleLoginController::class, 'fillInfomation']);
+    Route::post('/set-role', [ApiUserController::class, 'setRole']);
 });
