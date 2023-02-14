@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Laravel\Socialite\Facades\Socialite;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
 
-class ApiGoogleLoginController extends Controller
+class GoogleLoginController extends Controller
 {
     public function redirect()
     {
@@ -25,11 +26,11 @@ class ApiGoogleLoginController extends Controller
     {
         try {
             $googleUser  = Socialite::driver('google')->stateless()->user();
-       
+
             $finduser = User::where('google_id', $googleUser->id)->first();
-       
+
             if ( $finduser ) {
-                $token = Auth::login($finduser);              
+                $token = Auth::login($finduser);
             } else {
                 $newUser = User::create([
                     'name' => $googleUser->name,
@@ -37,7 +38,7 @@ class ApiGoogleLoginController extends Controller
                     'google_id'=> $googleUser->id,
                     'avatar' => $googleUser->avatar,
                 ]);
-      
+
                 $token = Auth::login($newUser);
             }
             return response()->json([
@@ -51,7 +52,7 @@ class ApiGoogleLoginController extends Controller
         }
     }
 
-    public function fillInfomation(Request $request )
+    public function fillInformation(Request $request ): JsonResponse
     {
         $password = $request->post('password');
         $display_name = $request->post('display_name');
@@ -59,7 +60,7 @@ class ApiGoogleLoginController extends Controller
             'password' => ['required', 'string', 'min:8'],
             'display_name' => ['required', 'string', 'max:255'],
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 404);
         }
@@ -70,7 +71,7 @@ class ApiGoogleLoginController extends Controller
         $user->display_name = $display_name;
         $user->save();
         return response()->json([
-            'message' => 'User successfully fill password',
+            'message' => 'Base successfully fill password',
             'user' => $user,
         ]);
     }

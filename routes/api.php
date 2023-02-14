@@ -1,10 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\Api\ApiUserController;
-use App\Http\Controllers\Api\ApiGoogleLoginController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\GoogleLoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,22 +16,25 @@ use App\Http\Controllers\Api\ApiGoogleLoginController;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-
-
-
 // Google login
-Route::get('google/redirect', [ApiGoogleLoginController::class, 'redirect']);
-Route::get('google/callback', [ApiGoogleLoginController::class, 'callback']);
+Route::group([
+    'prefix' => 'google'
+], function () {
+    Route::get('/redirect', [GoogleLoginController::class, 'redirect']);
+    Route::get('/callback', [GoogleLoginController::class, 'callback']);
+});
 
-// Form login
-Route::post('/login', [ApiUserController::class, 'login']);
+// Auth login
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('api')->group(function() {
-    Route::get('/users', [ApiUserController::class, 'users']);
-    Route::post('/fill-infomation', [ApiGoogleLoginController::class, 'fillInfomation']);
-    Route::post('/set-role', [ApiUserController::class, 'setRole']);
+Route::group(['middleware' => ['api']], function () {
+    Route::group([
+        'prefix' => 'users',
+    ], function () {
+        Route::get('/', [UserController::class, 'index']);
+//        Route::put('/{id}', 'update');
+        Route::post('/fill-information', [GoogleLoginController::class, 'fillInformation']);
+        Route::post('/set-role', [UserController::class, 'setRole']);
+        Route::post('/handle-active', [UserController::class, 'handleActive']);
+    });
 });
