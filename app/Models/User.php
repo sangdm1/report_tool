@@ -23,7 +23,8 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'google_id',
         'avatar',
-        'display_name'
+        'display_name',
+        'role'
     ];
 
     /**
@@ -50,7 +51,8 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return mixed
      */
-    public function getJWTIdentifier() {
+    public function getJWTIdentifier()
+    {
         return $this->getKey();
     }
 
@@ -59,7 +61,8 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return array
      */
-    public function getJWTCustomClaims() {
+    public function getJWTCustomClaims()
+    {
         return [];
     }
 }

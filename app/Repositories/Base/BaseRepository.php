@@ -31,7 +31,7 @@ abstract class BaseRepository implements RepositoryInterface
     {
         $instance = $this->app->make($this->getModel());
 
-        if (! $instance instanceof Model) {
+        if (!$instance instanceof Model) {
             throw new ModelNotFoundException('User not found');
         }
 
@@ -48,4 +48,38 @@ abstract class BaseRepository implements RepositoryInterface
     {
         return $this->model->all();
     }
+
+    /**
+     * Retrieve first data by multiple fields
+     * @param $where
+     * @param array $columns
+     * @return mixed
+     * @throws RepositoryException
+     */
+    public function firstWhere($where)
+    {
+        $model = $this->model->where($where)->first();
+        $this->resetModel();
+
+        return $model;
+    }
+
+    /**
+     * Update the existed model
+     *
+     * @param mixed $id
+     * @param array $attributes
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function update($id, array $attributes)
+    {
+        $result = $this->model->findOrFail($id);
+        $result->fill($attributes);
+        $result->save();
+
+        $this->resetModel();
+
+        return $result;
+    }
+
 }

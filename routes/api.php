@@ -28,13 +28,13 @@ Route::group([
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['api']], function () {
-    Route::group([
-        'prefix' => 'users',
-    ], function () {
-        Route::get('/', [UserController::class, 'index']);
-//        Route::put('/{id}', 'update');
-        Route::post('/fill-information', [GoogleLoginController::class, 'fillInformation']);
-        Route::post('/set-role', [UserController::class, 'setRole']);
-        Route::post('/handle-active', [UserController::class, 'handleActive']);
+
+    Route::controller(UserController::class)->group(function () {
+        Route::group([
+            'prefix' => 'users'
+        ], function () {
+            Route::get('/', 'index');
+            Route::put('/{id}', 'update');
+        });
     });
 });
