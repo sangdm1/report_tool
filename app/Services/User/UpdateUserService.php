@@ -4,7 +4,6 @@ namespace App\Services\User;
 
 use App\Repositories\UserRepository;
 use App\Services\BaseService;
-use App\Enums\UserRole;
 use Illuminate\Support\Facades\Auth;
 
 class UpdateUserService extends BaseService

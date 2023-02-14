@@ -10,6 +10,7 @@ use App\Http\Requests\User\CreateUserRequest;
 
 use App\Services\User\ListUserService;
 use App\Services\User\UpdateUserService;
+use App\Services\User\DetailUserService;
 
 class UserController extends Controller
 {
@@ -27,6 +28,17 @@ class UserController extends Controller
     public function index(ListUserRequest $request)
     {
         return resolve(ListUserService::class)->setData($request->all())->handle();
+    }
+
+    /**
+     * Display the specified DB.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        return resolve(DetailUserService::class)->setData(['id' => $id])->handle();
     }
 
     /**
