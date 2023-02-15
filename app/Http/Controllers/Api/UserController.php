@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Validator;
 
 use App\Http\Requests\User\ListUserRequest;
 use App\Http\Requests\User\CreateUserRequest;

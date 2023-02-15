@@ -8,10 +8,11 @@ use App\Http\Requests\Project\CreateProjectRequest;
 
 use App\Services\Project\CreateProjectService;
 use App\Services\Project\DetailProjectService;
-
+use App\Services\Project\UpdateProjectService;
 
 class ProjectController extends Controller
 {
+
     /**
      * Store a newly created resource in DB.
      *
@@ -32,5 +33,17 @@ class ProjectController extends Controller
     public function show($id)
     {
         return resolve(DetailProjectService::class)->setData(['id' => $id])->handle();
+    }
+
+    /**
+     * Update the specified resource in DB.
+     *
+     * @param CreateProjectRequest $request
+     * @param int $id
+     * @return Response
+     */
+    public function update(CreateProjectRequest $request, $id)
+    {
+        return resolve(UpdateProjectService::class)->setRequest($request)->handle($id);
     }
 }
