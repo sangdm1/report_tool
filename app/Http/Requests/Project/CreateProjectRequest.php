@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Project;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\FormRequest;
 
 class CreateProjectRequest extends FormRequest
 {
@@ -29,12 +29,12 @@ class CreateProjectRequest extends FormRequest
                 'max:255',
             ],
             'start_at' => [
-                'nullable',
-                'date_format:Y-m-d H:i:s',
+                'required',
+                'date_format:Y-m-d',
             ],
             'end_at' => [
-                'nullable',
-                'date_format:Y-m-d H:i:s',
+                'required',
+                'date_format:Y-m-d',
                 'after_or_equal:start_at',
             ],
         ];
@@ -61,7 +61,7 @@ class CreateProjectRequest extends FormRequest
             'required' => __('messages.MSG_001'),
             'numeric' => __('messages.MSG_002'),
             'date_format' => __('messages.MSG_003'),
-            'after_or_equal' => __('messages.MSG_003', ['attributeFrom' => __('label.projects.start_at')]),
+            'after_or_equal' => __('messages.MSG_004', ['attributeFrom' => __('label.projects.start_at')]),
             'max' => __('messages.MSG_003'),
         ];
     }

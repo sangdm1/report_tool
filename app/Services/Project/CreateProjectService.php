@@ -23,9 +23,10 @@ class CreateProjectService extends BaseService
             if ($authRole > 2) {
                 return $this->baseResponse(__('messages.project_msg_001'), [], 400);
             }
-            dd($this->data);
-        } catch (\Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), []);
+            $this->repository->create($this->data);
+            return $this->successResponse(__('messages.creat_msg_001'), []);
+        } catch (Exception $e) {
+            return $this->errorResponse($e->getMessage(), []);
         }
     }
 }

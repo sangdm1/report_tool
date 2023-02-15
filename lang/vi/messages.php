@@ -6,7 +6,7 @@ return [
     // numeric
     'MSG_002' => ':attribute phải là ký tự số',
     // date_format
-    'MSG_003' => ':attribute phải có dạng Y-m-d H:i:s',
+    'MSG_003' => ':attribute phải có dạng YYYY-mm-dd',
     // after_or_equal
     'MSG_004' => ':attribute kết thúc phải bằng hoặc sau ngày bắt đầu',
     // max
@@ -16,4 +16,6 @@ return [
     // project
     'project_msg_001' => 'Chỉ PM mới có quyền tạo dự án',
 
+    // CURD
+    'creat_msg_001' => 'Tạo mới dữ liệu thành công'
 ];

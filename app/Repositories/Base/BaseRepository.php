@@ -65,6 +65,22 @@ abstract class BaseRepository implements RepositoryInterface
     }
 
     /**
+     * Create new model
+     *
+     * @param array $attributes
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function create(array $attributes)
+    {
+        $result = $this->model->newInstance($attributes);
+        $result->save();
+
+        $this->resetModel();
+
+        return $result;
+    }
+
+    /**
      * Update the existed model
      *
      * @param mixed $id

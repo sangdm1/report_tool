@@ -48,7 +48,6 @@ abstract class BaseService
     public function setData($data)
     {
         $this->data = ($data instanceof Collection || !$this->collectsData) ? $data : new Collection($data);
-
         return $this;
     }
 
