@@ -7,6 +7,7 @@ use App\Repositories\MemberRepository;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Exception;
 
 class CreateProjectService extends BaseService
 {
@@ -32,7 +33,7 @@ class CreateProjectService extends BaseService
 
             $project = $this->repository->create($this->data);
             $project->members()->sync($members);
-            
+
             DB::commit();
             return $this->successResponse(__('messages.creat_msg_001'), []);
         } catch (Exception $e) {

@@ -32,7 +32,7 @@ class DeleteProjectService extends BaseService
             $project->delete();
 
             return $this->successResponse(__('Dự án xóa thành công'), []);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), []);
         }
     }
