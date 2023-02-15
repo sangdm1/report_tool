@@ -44,7 +44,7 @@ Route::group(['middleware' => ['jwt']], function () {
         Route::group([
             'prefix' => 'projects'
         ], function () {
-//            Route::get('/', 'index');
+            Route::get('/', 'index');
             Route::post('/', 'store');
             Route::get('/{id}', 'show');
             Route::put('/{id}', 'update');

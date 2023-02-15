@@ -5,13 +5,25 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Project\CreateProjectRequest;
+use App\Http\Requests\Project\ListProjectRequest;
 
+use App\Services\Project\ListProjectService;
 use App\Services\Project\CreateProjectService;
 use App\Services\Project\DetailProjectService;
 use App\Services\Project\UpdateProjectService;
 
 class ProjectController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @param ListProjectRequest $request
+     * @return JsonResponse
+     */
+    public function index(ListProjectRequest $request)
+    {
+        return resolve(ListProjectService::class)->setData($request->all())->handle();
+    }
 
     /**
      * Store a newly created resource in DB.
