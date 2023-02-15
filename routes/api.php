@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\GoogleLoginController;
 
@@ -27,7 +28,7 @@ Route::group([
 // Auth login
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::group(['middleware' => ['api']], function () {
+Route::group(['middleware' => ['jwt']], function () {
 
     Route::controller(UserController::class)->group(function () {
         Route::group([
@@ -36,6 +37,17 @@ Route::group(['middleware' => ['api']], function () {
             Route::get('/', 'index');
             Route::get('/{id}', 'show');
             Route::put('/{id}', 'update');
+        });
+    });
+
+    Route::controller(ProjectController::class)->group(function () {
+        Route::group([
+            'prefix' => 'projects'
+        ], function () {
+//            Route::get('/', 'index');
+            Route::post('/', 'store');
+//            Route::get('/{id}', 'show');
+//            Route::put('/{id}', 'update');
         });
     });
 });
