@@ -11,6 +11,7 @@ use App\Services\Project\ListProjectService;
 use App\Services\Project\CreateProjectService;
 use App\Services\Project\DetailProjectService;
 use App\Services\Project\UpdateProjectService;
+use App\Services\Project\DeleteProjectService;
 
 class ProjectController extends Controller
 {
@@ -57,5 +58,16 @@ class ProjectController extends Controller
     public function update(CreateProjectRequest $request, $id)
     {
         return resolve(UpdateProjectService::class)->setRequest($request)->handle($id);
+    }
+
+    /**
+     * Remove the specified resource from DB.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        return resolve(DeleteProjectService::class)->handle($id);
     }
 }
