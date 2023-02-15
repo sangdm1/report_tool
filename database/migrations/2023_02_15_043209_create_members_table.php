@@ -13,14 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('members', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->timestamp('start_at')->nullable();
-            $table->timestamp('end_at')->nullable();
+            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("project_id");
             $table->timestamp("created_at")->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp("updated_at")->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletesTz($column = 'deleted_at', $precision = 0);
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
     }
 
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('members');
     }
 };

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Project extends Model
+class Member extends Model
 {
     use SoftDeletes;
 
@@ -15,19 +15,10 @@ class Project extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'start_at',
-        'end_at',
+        'user_id',
+        'project_id',
         'created_at',
         'updated_at',
         'deleted_at',
     ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function members()
-    {
-        return $this->belongsToMany(User::class, 'members')->where('members.deleted_at', NULL);
-    }
 }

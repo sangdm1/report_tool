@@ -37,6 +37,14 @@ class CreateProjectRequest extends FormRequest
                 'date_format:Y-m-d',
                 'after_or_equal:start_at',
             ],
+            'member' => [
+                'array',
+                'nullable'
+            ],
+            'member.*' => [
+                'nullable',
+                'exists:users,id,deleted_at,NULL'
+            ]
         ];
     }
 
@@ -46,7 +54,7 @@ class CreateProjectRequest extends FormRequest
             'name' => __('label.projects.name'),
             'end_at' => __('label.projects.end_at'),
             'start_at' => __('label.projects.start_at'),
-
+            'member.*' => 'Người dùng'
         ];
     }
 
@@ -63,6 +71,8 @@ class CreateProjectRequest extends FormRequest
             'date_format' => __('messages.MSG_003'),
             'after_or_equal' => __('messages.MSG_004', ['attributeFrom' => __('label.projects.start_at')]),
             'max' => __('messages.MSG_003'),
+            'member.*.exists' => __(':attribute không tồn tại'),
+
         ];
     }
 }
