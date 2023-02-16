@@ -5,13 +5,26 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Report\CreateReportRequest;
+use App\Http\Requests\Report\ListReportRequest;
 
 use App\Services\Report\DetailReportService;
 use App\Services\Report\CreateReportService;
 use App\Services\Report\UpdateReportService;
+use App\Services\Report\ListReportService;
 
 class ReportController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @param ListReportRequest $request
+     * @return JsonResponse
+     */
+    public function index(ListReportRequest $request)
+    {
+        return resolve(ListReportService::class)->setData($request->all())->handle();
+    }
+
     /**
      * Store a newly created resource in DB.
      *

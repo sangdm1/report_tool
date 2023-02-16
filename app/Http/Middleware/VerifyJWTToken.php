@@ -23,7 +23,7 @@ class VerifyJWTToken
         try {
             $user = JWTAuth::user();
             if (!$user) {
-                $message = __('Không tìm thấy người dùng');
+                $message = __('Token không tồn tại hoặc hết hạn');
                 return $this->errorResponse($message);
             }
         }catch (JWTException $e) {
