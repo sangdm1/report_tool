@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("project_id");
             $table->string("title",500);
-            $table->json("content");
+            $table->text("content")->nullable();
             $table->timestamps();
             $table->softDeletesTz($column = 'deleted_at', $precision = 0);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
