@@ -19,6 +19,7 @@ return new class extends Migration
             $table->timestamp('start_at')->nullable();
             $table->timestamp("created_at")->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp("updated_at")->default(DB::raw('CURRENT_TIMESTAMP'));
+            
             $table->softDeletesTz($column = 'deleted_at', $precision = 0);
         });
     }
