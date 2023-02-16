@@ -20,8 +20,8 @@ return new class extends Migration
             $table->enum('role', config('constants.user_roles'))->nullable()->default(null);
             $table->string('name');
             $table->string('display_name')->nullable();
-            $table->string('code', 200)->unique()->nullable();
-            $table->string('email', 200)->unique();
+            $table->string('code', 190)->unique()->nullable();
+            $table->string('email', 190)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();
