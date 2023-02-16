@@ -11,6 +11,7 @@ use App\Services\Report\DetailReportService;
 use App\Services\Report\CreateReportService;
 use App\Services\Report\UpdateReportService;
 use App\Services\Report\ListReportService;
+use App\Services\Report\DeleteReportService;
 
 class ReportController extends Controller
 {
@@ -57,5 +58,16 @@ class ReportController extends Controller
     public function update(CreateReportRequest $request, $id)
     {
         return resolve(UpdateReportService::class)->setRequest($request)->handle($id);
+    }
+
+    /**
+     * Remove the specified resource from DB.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        return resolve(DeleteReportService::class)->handle($id);
     }
 }
