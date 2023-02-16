@@ -8,6 +8,7 @@ use App\Http\Requests\Report\CreateReportRequest;
 
 use App\Services\Report\DetailReportService;
 use App\Services\Report\CreateReportService;
+use App\Services\Report\UpdateReportService;
 
 class ReportController extends Controller
 {
@@ -31,5 +32,17 @@ class ReportController extends Controller
     public function show($id)
     {
         return resolve(DetailReportService::class)->setData(['id' => $id])->handle();
+    }
+
+    /**
+     * Update the specified resource in DB.
+     *
+     * @param CreateReportRequest $request
+     * @param int $id
+     * @return Response
+     */
+    public function update(CreateReportRequest $request, $id)
+    {
+        return resolve(UpdateReportService::class)->setRequest($request)->handle($id);
     }
 }

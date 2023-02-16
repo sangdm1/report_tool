@@ -55,7 +55,6 @@ class ProjectController extends Controller
      * @param int $id
      * @return Response
      */
-
     public function update(CreateProjectRequest $request, $id)
     {
         return resolve(UpdateProjectService::class)->setRequest($request)->handle($id);
