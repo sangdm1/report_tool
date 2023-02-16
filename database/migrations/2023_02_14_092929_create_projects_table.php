@@ -19,7 +19,6 @@ return new class extends Migration
             $table->timestamp('start_at')->nullable();
             $table->timestamp('end_at')->nullable();
             $table->timestamps();
-            $table->softDeletesTz($column = 'deleted_at', $precision = 0);
         });
     }
 
