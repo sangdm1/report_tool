@@ -4,7 +4,6 @@ namespace App\Services\Report;
 
 use App\Repositories\ReportRepository;
 use App\Services\BaseService;
-use Illuminate\Support\Facades\Auth;
 use Exception;
 
 class CreateReportService extends BaseService
