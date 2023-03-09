@@ -28,6 +28,10 @@ class CreateProjectRequest extends FormRequest
                 'required',
                 'max:255',
             ],
+            'form_report' => [
+                'nullable',
+                'array'
+            ],
             'start_at' => [
                 'required',
                 'date_format:Y-m-d',

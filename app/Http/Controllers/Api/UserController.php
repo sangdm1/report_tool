@@ -32,12 +32,11 @@ class UserController extends Controller
     /**
      * Display the specified DB.
      *
-     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        return resolve(DetailUserService::class)->setData(['id' => $id])->handle();
+        return resolve(DetailUserService::class)->setData(['id' => auth()->id()])->handle();
     }
 
     /**

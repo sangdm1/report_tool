@@ -36,7 +36,7 @@ Route::group(['middleware' => ['jwt']], function () {
             'prefix' => 'users'
         ], function () {
             Route::get('/', 'index');
-            Route::get('/{id}', 'show');
+            Route::get('/detail', 'show');
             Route::put('/{id}', 'update');
         });
     });

@@ -28,11 +28,14 @@ class CreateProjectService extends BaseService
                 return $this->baseResponse(__('messages.project_msg_001'), [], 400);
             }
             $members = $this->data['member'];
+            if ($this->data['form_report']) {
+                $this->data['form_report'] = json_encode($this->data['form_report']);
+            }
             unset($this->data['member']);
             DB::beginTransaction();
 
             $project = $this->repository->create($this->data);
-            $project->members()->sync($members);
+            $project->members()->syncWithPivotValues($members, ['created_at' => now(), 'updated_at' => now()]);
 
             DB::commit();
             return $this->successResponse(__('messages.creat_msg_001'), []);
