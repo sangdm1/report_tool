@@ -16,6 +16,7 @@ class Project extends Model
      */
     protected $fillable = [
         'name',
+        'form_report',
         'start_at',
         'end_at',
         'created_at',

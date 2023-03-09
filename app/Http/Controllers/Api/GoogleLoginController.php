@@ -3,34 +3,35 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
-
 class GoogleLoginController extends Controller
 {
+    use ApiResponse;
+
     public function redirect()
     {
-        return Response::json([
-            'url' => Socialite::driver('google')->stateless()->redirect()->getTargetUrl(),
+        return $this->successResponse('success', [
+            'url' => Socialite::driver('google')->stateless()->redirect()->getTargetUrl()
         ]);
     }
 
     public function callback()
     {
         try {
-            $googleUser  = Socialite::driver('google')->stateless()->user();
+            $googleUser = Socialite::driver('google')->stateless()->user();
 
-            $finduser = User::where('google_id', $googleUser->id)->first();
+            $findUser = User::where('google_id', $googleUser->id)->first();
 
-            if ( $finduser ) {
-                $token = Auth::login($finduser);
+            if ($findUser) {
+                $token = Auth::login($findUser);
             } else {
                 $newUser = User::create([
                     'name' => $googleUser->name,
@@ -41,14 +42,15 @@ class GoogleLoginController extends Controller
 
                 $token = Auth::login($newUser);
             }
-            return response()->json([
+
+            return $this->successResponse('success', [
                 'access_token' => $token,
                 'token_type' => 'bearer',
-                // 'expires_in' => auth()->factory()->getTTL() * 60,
+//                'expires_in' => auth()->factory()->getTTL() * 60,
                 'user' => Auth::user()
             ]);
         } catch (Exception $e) {
-            dd($e->getMessage());
+            return $this->errorResponse($e->getMessage());
         }
     }
 
