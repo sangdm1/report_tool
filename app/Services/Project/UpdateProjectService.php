@@ -2,9 +2,9 @@
 
 namespace App\Services\Project;
 
+use App\Enums\UserRole;
 use App\Repositories\ProjectRepository;
 use App\Services\BaseService;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UpdateProjectService extends BaseService
@@ -20,24 +20,26 @@ class UpdateProjectService extends BaseService
     public function handle($id)
     {
         try {
-            $authRole = Auth::user()->role;
-            if ($authRole > 2) {
-                return $this->baseResponse(__('messages.project_msg_001'), [], 400);
+            if (auth()->user()->role === UserRole::MEMBER) {
+                return $this->errorResponse(__('messages.project_msg_001'));
             }
-            $members = $this->data['member'] ?? [];
+
             if ($this->data['form_report']) {
                 $this->data['form_report'] = json_encode($this->data['form_report']);
             }
-            unset($this->data['member']);
+
+            $members = array_merge($this->data['member'] ?? [], $this->data['manager'] ?? []);
+            unset($this->data['member'], $this->data['manager']);
+
             DB::beginTransaction();
             $project = $this->repository->update($id, $this->data);
-            $project->members()->sync($members);
+            $project->members()->syncWithPivotValues($members, ['updated_at' => now()]);
             DB::commit();
 
-            return $this->successResponse(__('Update success'), []);
+            return $this->successResponse(__('Update success'));
         } catch (\Exception $exception) {
             DB::rollBack();
-            return $this->errorResponse($exception->getMessage(), []);
+            return $this->errorResponse($exception->getMessage());
         }
     }
 }

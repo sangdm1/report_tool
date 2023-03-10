@@ -32,6 +32,17 @@ class CreateProjectRequest extends FormRequest
                 'nullable',
                 'array'
             ],
+            'manager' => [
+                'nullable',
+                'array'
+            ],
+            'manager.*' => [
+                'nullable',
+                'exists:users,id,deleted_at,NULL'
+            ],
+            'color' => [
+                'required',
+            ],
             'start_at' => [
                 'required',
                 'date_format:Y-m-d',
