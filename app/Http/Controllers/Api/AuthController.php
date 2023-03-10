@@ -39,4 +39,19 @@ class AuthController extends Controller
             'access_token' => $token
         ]);
     }
+
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout()
+    {
+        try {
+            auth()->logout();
+
+            return $this->successResponse(__('Logout success'));
+        } catch (\Exception $e) {
+            return $this->errorResponse(__('Fail to logout'));
+        }
+    }
 }
