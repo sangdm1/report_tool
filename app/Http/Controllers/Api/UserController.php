@@ -43,11 +43,10 @@ class UserController extends Controller
      * Update the specified resource in DB.
      *
      * @param CreateUserRequest $request
-     * @param int $id
      * @return Response
      */
-    public function update(CreateUserRequest $request, $id)
+    public function update(CreateUserRequest $request)
     {
-        return resolve(UpdateUserService::class)->setRequest($request)->handle($id);
+        return resolve(UpdateUserService::class)->setRequest($request)->handle();
     }
 }
