@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests\User;
 
+use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use App\Http\Requests\FormRequest;
+use Illuminate\Validation\Rules\In;
+use Illuminate\Validation\Rules\RequiredIf;
 
 class CreateUserRequest extends FormRequest
 {
@@ -24,10 +28,39 @@ class CreateUserRequest extends FormRequest
     public function rules()
     {
         return [
+            'id' => [
+                'integer',
+                new RequiredIf(in_array($this->user()->role, [UserRole::PM, UserRole::LEADER])),
+                'exists:users,id'
+            ],
             'role' => [
                 'nullable',
                 'numeric',
-                'in:1,2,3,4'
+                new In([UserRole::PM, UserRole::LEADER, UserRole::MEMBER])
+            ],
+            'name' => [
+                'nullable',
+                'string',
+                'max:255'
+            ],
+            'display_name' => [
+                'nullable',
+                'string',
+                'max:255'
+            ],
+            'email' => [
+                'nullable',
+                'string',
+                'max:190',
+                'email:rfc,dns'
+            ],
+            'avatar' => [
+                'nullable',
+                'image'
+            ],
+            'status' => [
+                'nullable',
+                new In([UserStatus::ACTIVE, UserStatus::INACTIVE])
             ]
         ];
     }

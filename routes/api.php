@@ -36,7 +36,7 @@ Route::group(['middleware' => ['jwt']], function () {
     Route::group(['controller' => UserController::class, 'prefix' => 'users'], function () {
         Route::get('/', 'index');
         Route::get('/detail', 'show');
-        Route::put('/{id}', 'update');
+        Route::put('/', 'update');
     });
 
     Route::group(['controller' => ProjectController::class, 'prefix' => 'projects'], function () {
@@ -53,8 +53,10 @@ Route::group(['middleware' => ['jwt']], function () {
         Route::get('/', 'index');
         Route::post('/', 'store');
         Route::get('/{id}', 'show');
-        Route::put('/{id}', 'update');
-        Route::delete('/{id}', 'destroy');
+        Route::middleware('role:' . UserRole::MEMBER)->group(function () {
+            Route::put('/{id}', 'update');
+            Route::delete('/{id}', 'destroy');
+        });
     });
 
 });

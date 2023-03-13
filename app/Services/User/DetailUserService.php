@@ -3,9 +3,7 @@
 namespace App\Services\User;
 
 use App\Http\Resources\User\UserResource;
-
 use App\Repositories\UserRepository;
-
 use App\Services\BaseService;
 
 class DetailUserService extends BaseService
@@ -21,15 +19,13 @@ class DetailUserService extends BaseService
     public function handle()
     {
         try {
-            $user = $this->repository->firstWhere(['id' => $this->data['id']]);
-            if (!$user) {
-                return $this->baseResponse('[]', [], Response::HTTP_NOT_FOUND);
+            if (!$user = $this->repository->firstWhere(['id' => $this->data['id']])) {
+                return $this->errorResponse(__('User not found'));
             }
-            $userResource = new UserResource($user);
 
-            return $this->successResponse('', ['user' => $userResource]);
+            return $this->successResponse('', (new UserResource($user))->resolve());
         } catch (\Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), []);
+            return $this->errorResponse($exception->getMessage());
         }
     }
 }
